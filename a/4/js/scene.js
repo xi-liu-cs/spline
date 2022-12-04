@@ -51,7 +51,7 @@ render: `
    S.revolutionMesh = S.createRevolutionMesh(16, 32, [
       {z:-1  , r:0  },
       {z:-.99, r:.1 },
-      {z:-.7 , r:.5 - .1 * Math.sin(5 * time)},
+      {z:-.7 , r:.5 },
       {z: .3 , r:.1 },
       {z: .8 , r:.3 },
       {z: 1  , r:0  },
