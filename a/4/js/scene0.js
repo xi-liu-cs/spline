@@ -86,15 +86,10 @@ function face_normal(vertex_array, i, j)
 
 function vertex_normal(face_normal_array, i, j, nu, nv)
 {
-    // let i0 = 0 <= i && i < nu ? i : 0,
-    // j0 = 0 <= i && j < nv ? j : 0,
-    // i1 = 0 <= i - 1 && i - 1 < nu ? i - 1 : nu - 1,
-    // j1 = 0 <= j - 1 && j - 1 < nv ? j - 1 : nv - 1,
-    
-    let i0 = i,
-    j0 = j,
-    i1 = 0 <= i - 1 && i - 1 < nu ? i - 1 : 0,
-    j1 = 0 <= j - 1 && j - 1 < nv ? j - 1 : 0,
+    let i0 = 0 <= i && i < nu ? i : 0,
+    j0 = 0 <= i && j < nv ? j : 0,
+    i1 = 0 <= i - 1 && i - 1 < nu ? i - 1 : nu - 1,
+    j1 = 0 <= j - 1 && j - 1 < nv ? j - 1 : nv - 1,
     f0 = face_normal_array[i0] ? face_normal_array[i0][j1] : [0, 0, 0],
     f1 = face_normal_array[i0] ? face_normal_array[i0][j0] : [0, 0, 0],
     f2 = face_normal_array[i1] ? face_normal_array[i1][j1] : [0, 0, 0],
@@ -135,15 +130,6 @@ function uvMesh(f, nu, nv, data)
             vertex_array[i][j] = f(u, v, data);
         }
     }
-    /* for(let i = 0; i < vertex_array_row; ++i)
-    {
-        let u = i / nu;
-        for(let j = 0; j < vertex_array_col; ++j)
-        {
-            let v = j / nv;
-            vertex_array[i][j] = f(u, v, data);
-        }
-    } */
 
     /* create an array of nu x nv face normals
             d---c---v
