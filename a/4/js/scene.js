@@ -2,8 +2,7 @@ rooms.scene = function() {
 
 lib3D2();
 
-description = `<b>scene</b>
-              `;
+description = `<b>scene</b>`;
 
 code = {
 'init': 
@@ -93,11 +92,25 @@ render: `
    let m = new Matrix();
    m.save();
       m.scale(.5);
-      m.rotx(Math.PI/8 * Math.sin(time));
-      m.roty(Math.PI/8 * Math.cos(time));
+      // m.rotx(-Math.PI/4); // * Math.sin(time));
+      // m.roty(Math.PI/4); // * Math.cos(time));
+      m.rotx(-Math.PI/5 * Math.sin(time));
+      m.roty(Math.PI * Math.cos(time));
+      m.rotz(Math.PI/5 * Math.cos(time));
       S.drawMesh(S.revolutionMesh, m.get(), 0);
       S.drawMesh(S.extrusionMesh, m.get(), 1);
    m.restore();
+
+   let m2 = new Matrix();
+   m2.save();
+      m2.scale(.1);
+      m2.translate(-7, .7, 0);
+      m2.rotx(Math.PI / 2); // * Math.cos(time));
+      m2.roty(Math.PI / 2); // * Math.sin(time));
+      m2.rotz(Math.PI);
+      m2.rotz(Math.PI * Math.sin(time));
+      S.drawMesh(S.sphereMesh, m2.get(), 0);
+   m2.restore();
 `,
 events: `
    ;

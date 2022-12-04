@@ -84,14 +84,21 @@ function face_normal(vertex_array, i, j)
     );
 }
 
-function vertex_normal(face_normal_array, i, j)
+function vertex_normal(face_normal_array, i, j, nu, nv)
 {
-    let i1 = 0 <= i - 1 ? i - 1 : 0,
-    j1 = 0 <= j - 1 ? j - 1 : 0,
-    f0 = face_normal_array[i] ? face_normal_array[i][j1] : [0, 0, 0],
-    f1 = face_normal_array[i] ? face_normal_array[i][j] : [0, 0, 0],
+    // let i0 = 0 <= i && i < nu ? i : 0,
+    // j0 = 0 <= i && j < nv ? j : 0,
+    // i1 = 0 <= i - 1 && i - 1 < nu ? i - 1 : nu - 1,
+    // j1 = 0 <= j - 1 && j - 1 < nv ? j - 1 : nv - 1,
+    
+    let i0 = i,
+    j0 = j,
+    i1 = 0 <= i - 1 && i - 1 < nu ? i - 1 : 0,
+    j1 = 0 <= j - 1 && j - 1 < nv ? j - 1 : 0,
+    f0 = face_normal_array[i0] ? face_normal_array[i0][j1] : [0, 0, 0],
+    f1 = face_normal_array[i0] ? face_normal_array[i0][j0] : [0, 0, 0],
     f2 = face_normal_array[i1] ? face_normal_array[i1][j1] : [0, 0, 0],
-    f3 = face_normal_array[i1] ? face_normal_array[i1][j] : [0, 0, 0];
+    f3 = face_normal_array[i1] ? face_normal_array[i1][j0] : [0, 0, 0];
     return normalize
     (
         add
@@ -105,8 +112,7 @@ function vertex_normal(face_normal_array, i, j)
 function uvMesh(f, nu, nv, data)
 {
     let mesh = [];
-    /* implement
-    create an array of nu+1 x nv+1 vertices
+    /* create an array of nu+1 x nv+1 vertices
             v---v---v
             |   |   |
             v---v---v
@@ -165,13 +171,14 @@ function uvMesh(f, nu, nv, data)
             v---v---v
     */
     let vertex_normal_row = nu + 1,
+
     vertex_normal_col = nv + 1,
     vertex_normal_array = new Array(vertex_normal_row);
     for(let i = 0; i < vertex_array_row; ++i)
         vertex_normal_array[i] = new Array(vertex_array_col);
     for(let i = 0; i < vertex_normal_row; ++i)
         for(let j = 0; j < vertex_normal_col; ++j)
-            vertex_normal_array[i][j] = vertex_normal(face_normal_array, i, j);
+            vertex_normal_array[i][j] = vertex_normal(face_normal_array, i, j, nu, nv);
 
     /* build the mesh by glueing together rows of triangle strips
     don't try to build a flat array here.
@@ -366,13 +373,12 @@ function uvMesh(f, nu, nv, data)
     let profile  = data.profile;
     let path     = data.path;
     let profileSpline = u => S.evalSpline(profile, u, S.CatmullRomFunction);
-    let pathSpline    = v => S.evalSpline(path   , v, S.CatmullRomFunction);
+    let pathSpline    = v => S.evalSpline(path, v, S.CatmullRomFunction);
 
     let m = new Matrix(),
         p = pathSpline(0),
         q = pathSpline(0.001);
-    /* implement
-    z = normalize(q - p)
+    /* z = normalize(q - p)
     x = a vector not aligned with z
 
     to find a reasonable initial value for x:
@@ -385,7 +391,7 @@ function uvMesh(f, nu, nv, data)
        if yy < xx && yy < zz then x = [0,1,0]
        if zz < xx && zz < yy then x = [0,0,1]
     */
-    let z = normalize(subtract(q, p)), x,
+    let z = normalize(subtract([q.x, q.y, q.z], [p.x, p.y, p.z])), x,
     xx = z[0] * z[0],
     yy = z[1] * z[1],
     zz = z[2] * z[2];
@@ -397,17 +403,20 @@ function uvMesh(f, nu, nv, data)
     {
         p = pathSpline(v - .001);
         q = pathSpline(v + .001);
-        /* implement
-        z = normalize(q - p)
+        /* z = normalize(q - p)
         y = normalize( cross (z, x) )
         x = normalize( cross (y, z) )
         m = x y z p
         */
-        z = normalize(subtract(q, p));
+        z = normalize(subtract([q.x, q.y, q.z], [p.x, p.y, p.z]));
         y = normalize(cross(z, x));
         x = normalize(cross(y, z));
+        p = [p.x, p.y, p.z, 0];
+        x.push(0);
+        y.push(0);
+        z.push(0);
         m.set(x.concat(y, z, p));
-      
+
         p = profileSpline(u);
         let P = m.transform([radius * p.x, radius * p.y, radius * p.z]);
         return [
