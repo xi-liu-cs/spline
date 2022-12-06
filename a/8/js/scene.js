@@ -2,7 +2,7 @@ rooms.scene = function() {
 
 lib();
 
-description = `<b>scene</b>
+description = `<b>scene</b><br>
 <input type = range id = move_rate> rate<br>
 <input type = range id = arm_len value = 28> arm length<br>
 <input type = range id = leg_len value = 40> leg length<br>
