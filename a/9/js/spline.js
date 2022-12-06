@@ -71,6 +71,22 @@ render: `
             {x:-1, y: 1, z: 0},
         ]
     };
+    
+    /* extrusion_data = {
+        radius: 0.2,
+        profile: [
+           {x:-1 , y:-1 , z: 0},
+           {x: 1 , y:-1 , z: 0},
+           {x: 1 , y: 1 , z: 0},
+           {x:-1 , y: 1 , z: 0},
+        ],
+        path: [
+           {x: 1, y:-1, z: 0},
+           {x:-1, y:-1, z: 0},
+           {x:-1, y: 1, z: 0},
+           {x: 1, y: 1, z: 0},
+        ]
+     }; */
 
     S.extrusionMesh = S.createExtrusionMesh(24, 8, extrusionData);
 
@@ -97,6 +113,7 @@ render: `
         m.rotz(Math.PI/5 * Math.cos(time));
         S.drawMesh(S.revolutionMesh, m.get(), 0);
         S.drawMesh(S.extrusionMesh, m.get(), 1);
+        /* S.drawMesh(S.createExtrusionMesh(24, 8, extrusion_data), m.get(), 1); */
     m.restore();
 `,
 events: `
