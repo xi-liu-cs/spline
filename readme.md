@@ -1,7 +1,7 @@
 # spline aircraft
 
 ![0](img/0.png)
-Xi Liu
+Xi Liu<br>
 This project is done for computer graphics course at New York University, fall 2022, using WebGL.<br>
 An aircraft made of meshes constructed from splines such as extrusions and surface of revolutions. Can click ```start or stop movement``` button to start or stop the plane's rotation.
 
