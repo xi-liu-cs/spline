@@ -1,8 +1,10 @@
 # spline aircraft
 
-An aircraft made of surface of revolutions and extrusions that are created from splines. Can click ```start or stop movement``` button to start or stop the plane's rotation.
-
 ![0](img/0.png)
+Xi Liu
+This project is done for computer graphics course at New York University, fall 2022, using WebGL.<br>
+An aircraft made of meshes constructed from splines such as extrusions and surface of revolutions. Can click ```start or stop movement``` button to start or stop the plane's rotation.
+
 ![1](img/1.png)
 ![2](img/2.png)
 ![3](img/3.png)
