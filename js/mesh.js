@@ -362,7 +362,8 @@ S.drawMesh = (mesh, matrix, materialIndex, textureSrc) =>
    S.gl.drawArrays(mesh.isTriangles ? S.gl.TRIANGLES : S.gl.TRIANGLE_STRIP, 0, mesh.length / S.VERTEX_SIZE);
 }
 
-let evalCubicSpline = (splineMatrix, P, t) => {
+let evalCubicSpline = (splineMatrix, P, t) =>
+{/* mat4 splineMatrix, {x, y, z} P[], float t */
    let splineValue = P => {
       let c = matrixTransform(splineMatrix, P);
       return t * (t * (t * c[0] + c[1]) + c[2]) + c[3];
@@ -375,7 +376,7 @@ let evalCubicSpline = (splineMatrix, P, t) => {
 
    let value = {}; /* revolution {z, r}, extrusion {x, y, z} */
    for (let k in P[0])
-      value[k] = splineValue([ P[0][k], P[1][k], P[2][k], P[3][k] ]);
+      value[k] = splineValue([P[0][k], P[1][k], P[2][k], P[3][k]]);
    return value;
 }
 
