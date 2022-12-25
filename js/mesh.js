@@ -373,8 +373,8 @@ let evalCubicSpline = (splineMatrix, P, t) => {
    if (Number.isFinite(P[0]))    // SPECIAL CASE: THE VALUE
       return splineValue(P);     // AT THE KEY IS A NUMBER.
 
-   let value = {};
-   for (let k in P[0])
+   let value = {}; /* {x, y, z} */
+   for (let k in P[0]) /* {x, y, z} p[] */
       value[k] = splineValue([ P[0][k], P[1][k], P[2][k], P[3][k] ]);
    return value;
 }
